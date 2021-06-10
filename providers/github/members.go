@@ -20,7 +20,7 @@ import (
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 
-	githubAPI "github.com/google/go-github/v25/github"
+	githubAPI "github.com/google/go-github/v35/github"
 )
 
 // MembersGenerator holds GithubService struct of Terraform service information
@@ -42,7 +42,7 @@ func (g *MembersGenerator) InitResources() error {
 
 	// List all organization members for the authenticated user
 	for {
-		members, resp, err := client.Organizations.ListMembers(ctx, g.Args["organization"].(string), opt)
+		members, resp, err := client.Organizations.ListMembers(ctx, g.Args["owner"].(string), opt)
 		if err != nil {
 			log.Println(err)
 			return nil
@@ -50,7 +50,7 @@ func (g *MembersGenerator) InitResources() error {
 
 		for _, member := range members {
 			resource := terraformutils.NewSimpleResource(
-				g.Args["organization"].(string)+":"+member.GetLogin(),
+				g.Args["owner"].(string)+":"+member.GetLogin(),
 				member.GetLogin(),
 				"github_membership",
 				"github",

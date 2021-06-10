@@ -33,9 +33,9 @@ func OutputHclFiles(resources []terraformutils.Resource, provider terraformutils
 	providerData := provider.GetProviderData()
 	providerData["terraform"] = map[string]interface{}{
 		"required_providers": []map[string]interface{}{{
-			provider.GetName(): []map[string]interface{}{{
+			provider.GetName(): map[string]interface{}{
 				"version": providerwrapper.GetProviderVersion(provider.GetName()),
-			}},
+			},
 		}},
 	}
 
@@ -112,6 +112,21 @@ func OutputHclFiles(resources []terraformutils.Resource, provider terraformutils
 }
 
 func printFile(v []terraformutils.Resource, fileName, path, output string) error {
+	for _, res := range v {
+		if res.DataFiles == nil {
+			continue
+		}
+		for fileName, content := range res.DataFiles {
+			if err := os.MkdirAll(path+"/data/", os.ModePerm); err != nil {
+				return err
+			}
+			err := ioutil.WriteFile(path+"/data/"+fileName, content, os.ModePerm)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	tfFile, err := terraformutils.HclPrintResource(v, map[string]interface{}{}, output)
 	if err != nil {
 		return err
@@ -120,6 +135,7 @@ func printFile(v []terraformutils.Resource, fileName, path, output string) error
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
 

@@ -20,7 +20,7 @@ import (
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 
-	githubAPI "github.com/google/go-github/v25/github"
+	githubAPI "github.com/google/go-github/v35/github"
 )
 
 type OrganizationBlockGenerator struct {
@@ -39,7 +39,7 @@ func (g *OrganizationBlockGenerator) InitResources() error {
 
 	// List all organization blocks for the authenticated user
 	for {
-		blocks, resp, err := client.Organizations.ListBlockedUsers(ctx, g.Args["organization"].(string), opt)
+		blocks, resp, err := client.Organizations.ListBlockedUsers(ctx, g.Args["owner"].(string), opt)
 		if err != nil {
 			log.Println(err)
 			return nil

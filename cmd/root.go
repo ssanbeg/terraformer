@@ -47,10 +47,8 @@ func providerImporterSubcommands() []func(options ImportOptions) *cobra.Command 
 		// Cloud
 		newCmdDigitalOceanImporter,
 		newCmdEquinixMetalImporter,
-		newCmdFastlyImporter,
 		newCmdHerokuImporter,
 		newCmdLinodeImporter,
-		newCmdNs1Importer,
 		newCmdOpenStackImporter,
 		newCmdTencentCloudImporter,
 		newCmdVultrImporter,
@@ -61,11 +59,16 @@ func providerImporterSubcommands() []func(options ImportOptions) *cobra.Command 
 		newCmdRabbitMQImporter,
 		// Network
 		newCmdCloudflareImporter,
+		newCmdFastlyImporter,
+		newCmdNs1Importer,
+		newCmdPanosImporter,
 		// VCS
 		newCmdGithubImporter,
 		// Monitoring & System Management
 		newCmdDatadogImporter,
 		newCmdNewRelicImporter,
+		newCmdGrafanaImporter,
+		newCmdPagerDutyImporter,
 		// Community
 		newCmdKeycloakImporter,
 		newCmdLogzioImporter,
@@ -106,6 +109,7 @@ func providerGenerators() map[string]func() terraformutils.ProviderGenerator {
 		// Monitoring & System Management
 		newDataDogProvider,
 		newNewRelicProvider,
+		newPagerDutyProvider,
 		// Community
 		newKeycloakProvider,
 		newLogzioProvider,

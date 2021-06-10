@@ -21,7 +21,7 @@ import (
 
 	"github.com/GoogleCloudPlatform/terraformer/terraformutils"
 
-	githubAPI "github.com/google/go-github/v25/github"
+	githubAPI "github.com/google/go-github/v35/github"
 )
 
 type OrganizationProjectGenerator struct {
@@ -42,7 +42,7 @@ func (g *OrganizationProjectGenerator) InitResources() error {
 
 	// List all organization projects for the authenticated user
 	for {
-		projects, resp, err := client.Organizations.ListProjects(ctx, g.Args["organization"].(string), opt)
+		projects, resp, err := client.Organizations.ListProjects(ctx, g.Args["owner"].(string), opt)
 		if err != nil {
 			log.Println(err)
 			return nil
